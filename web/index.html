@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -12,11 +13,12 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>firedash</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
@@ -28,6 +30,34 @@
       });
     }
   </script>
-  <script src="main.dart.js" type="application/javascript"></script>
+  <script defer src="main.dart.js" type="application/javascript"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDCH0Y_cK-Q6xZeMoTuqmbd0Ivewm7iEj0",
+      authDomain: "firedash-f6977.firebaseapp.com",
+      databaseURL: "https://firedash-f6977.firebaseio.com",
+      projectId: "firedash-f6977",
+      storageBucket: "firedash-f6977.appspot.com",
+      messagingSenderId: "968065914501",
+      appId: "1:968065914501:web:065c619795600a30b2fbec",
+      measurementId: "G-CVKS80VRR9"
+    };
+    // Initialize Firebase
+    var defaultProject = firebase.initializeApp(firebaseConfig);
+    // var defaultAnalytics = defaultProject.analytics();
+    // var defaultFirestore = defaultProject.firestore();
+  </script>
 </body>
+
 </html>
