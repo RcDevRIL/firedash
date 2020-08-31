@@ -1,3 +1,4 @@
+import 'package:firedash/ui/pages/login.dart';
 import 'package:firedash/ui/pages/pages.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Baby Names',
-      home: BabyVotesPage(),
+      routes: {
+        '/': (context) => HomePage(),
+        '/login': (context) => LoginPage(),
+        '/babies': (context) => BabyVotesPage(),
+      },
+      initialRoute: '/',
     );
   }
 }
