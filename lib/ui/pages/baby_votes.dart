@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firedash/data/models/models.dart';
+import 'package:firedash/ui/widgets/info_dialog.dart';
+import 'package:firedash/utils/dialog_service.dart';
+import 'package:firedash/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 
 class BabyVotesPage extends StatefulWidget {
@@ -10,18 +13,32 @@ class BabyVotesPage extends StatefulWidget {
 }
 
 class _BabyVotesPageState extends State<BabyVotesPage> {
+  ScrollController _scrollController;
+
   double _listItemExtent;
   double _trailingTopPadding;
 
   static const double _listPadding = 20;
   static const double _voteOptionsHeight = 40;
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {
     _listItemExtent = MediaQuery.of(context).size.height / 6;
     _trailingTopPadding = _listItemExtent * 0.5 - _voteOptionsHeight;
     return Scaffold(
-      appBar: AppBar(title: Text('Baby Name Votes')),
+      appBar: AppBar(title: Text('Baby Names')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            getIt<DialogService>().featureNotAvailableDialog(context),
+        child: Icon(
+          Icons.add,
+        ),
+      ),
       body: _buildBody(context),
     );
   }
@@ -53,7 +70,7 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
       key: ValueKey(record.name),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.teal[900],
+          color: Theme.of(context).primaryColorDark,
         ),
         borderRadius: BorderRadius.circular(5.0),
         color: Colors.white60,
@@ -61,7 +78,17 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
       height: _listItemExtent - _listPadding * 4,
       child: ListTile(
         title: Text(record.name),
-        subtitle: SingleChildScrollView(child: Text(record.description)),
+        subtitle: Container(
+          height: _listItemExtent * 0.7,
+          child: Scrollbar(
+            radius: Radius.circular(120),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              clipBehavior: Clip.hardEdge,
+              child: Text(record.description),
+            ),
+          ),
+        ),
         trailing: Padding(
           padding: EdgeInsets.only(
             top: _trailingTopPadding,
@@ -126,5 +153,11 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

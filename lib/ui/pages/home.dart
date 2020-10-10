@@ -1,3 +1,5 @@
+import 'package:firedash/utils/dialog_service.dart';
+import 'package:firedash/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,7 +9,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('FireDash'),
         centerTitle: true,
-        backgroundColor: Colors.lightBlue,
         actions: [
           IconButton(
             focusColor: Colors.transparent,
@@ -31,20 +32,28 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      backgroundColor: Colors.lightBlue,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.pushNamed(context, '/babies'),
-              color: Colors.blueGrey,
-              child: Text('Babies vote'),
+              child: Text(
+                'Baby Names',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
             ),
-            MaterialButton(
-              onPressed: () {},
-              color: Colors.blueGrey,
-              child: Text('Firebase auth'),
+            TextButton(
+              onPressed: () =>
+                  getIt<DialogService>().featureNotAvailableDialog(context),
+              child: Text(
+                'Firebase auth',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
             ),
           ],
         ),
