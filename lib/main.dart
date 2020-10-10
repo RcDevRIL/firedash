@@ -15,6 +15,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/babies': (context) => BabyVotesPage(),
       },
+      theme: Theme.of(context).copyWith(
+        primaryColor: Colors.teal[200],
+      ),
       initialRoute: '/',
     );
   }

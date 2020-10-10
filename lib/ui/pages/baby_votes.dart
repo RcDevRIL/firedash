@@ -10,8 +10,16 @@ class BabyVotesPage extends StatefulWidget {
 }
 
 class _BabyVotesPageState extends State<BabyVotesPage> {
+  double _listItemExtent;
+  double _trailingTopPadding;
+
+  static const double _listPadding = 20;
+  static const double _voteOptionsHeight = 40;
+
   @override
   Widget build(BuildContext context) {
+    _listItemExtent = MediaQuery.of(context).size.height / 6;
+    _trailingTopPadding = _listItemExtent * 0.5 - _voteOptionsHeight;
     return Scaffold(
       appBar: AppBar(title: Text('Baby Name Votes')),
       body: _buildBody(context),
@@ -32,7 +40,8 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
   Widget _buildList(
       BuildContext context, List<QueryDocumentSnapshot> snapshot) {
     return ListView(
-      padding: const EdgeInsets.only(top: 20.0),
+      padding: const EdgeInsets.all(_listPadding),
+      itemExtent: _listItemExtent,
       children: snapshot.map((data) => _buildListItem(context, data)).toList(),
     );
   }
@@ -40,19 +49,80 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
 
-    return Padding(
+    return Container(
       key: ValueKey(record.name),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.teal[900],
         ),
-        child: ListTile(
-          title: Text(record.name),
-          trailing: Text(record.votes.toString()),
-          onTap: () =>
-              record.reference.update({'votes': FieldValue.increment(1)}),
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.white60,
+      ),
+      height: _listItemExtent - _listPadding * 4,
+      child: ListTile(
+        title: Text(record.name),
+        subtitle: SingleChildScrollView(child: Text(record.description)),
+        trailing: Padding(
+          padding: EdgeInsets.only(
+            top: _trailingTopPadding,
+          ),
+          child: Container(
+            height: _voteOptionsHeight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                MaterialButton(
+                  onPressed: () => record.reference
+                      .update({'votes': FieldValue.increment(-1)}),
+                  shape: CircleBorder(
+                    side: BorderSide(
+                      color: Colors.red[300],
+                      width: 1.0,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  minWidth: 0.0,
+                  clipBehavior: Clip.antiAlias,
+                  enableFeedback: true,
+                  child: Icon(
+                    Icons.exposure_minus_1,
+                    semanticLabel: '-1',
+                    size: 14,
+                    color: Colors.red[300],
+                  ),
+                  color: Colors.grey[100],
+                  hoverColor: Colors.transparent,
+                ),
+                Text(
+                  record.votes.toString(),
+                  textWidthBasis: TextWidthBasis.longestLine,
+                ),
+                MaterialButton(
+                  onPressed: () => record.reference
+                      .update({'votes': FieldValue.increment(1)}),
+                  shape: CircleBorder(
+                      side: BorderSide(
+                    color: Colors.teal,
+                    width: 1.0,
+                    style: BorderStyle.solid,
+                  )),
+                  minWidth: 0.0,
+                  clipBehavior: Clip.antiAlias,
+                  enableFeedback: true,
+                  child: Icon(
+                    Icons.exposure_plus_1,
+                    semanticLabel: '+1',
+                    size: 14,
+                    color: Colors.teal,
+                  ),
+                  color: Colors.grey[100],
+                  hoverColor: Colors.transparent,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
