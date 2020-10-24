@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firedash/data/models/models.dart';
-import 'package:firedash/ui/widgets/info_dialog.dart';
 import 'package:firedash/utils/dialog_service.dart';
-import 'package:firedash/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 
 class BabyVotesPage extends StatefulWidget {
@@ -33,8 +31,7 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
     return Scaffold(
       appBar: AppBar(title: Text('Baby Names')),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            getIt<DialogService>().featureNotAvailableDialog(context),
+        onPressed: () => DialogService.featureNotAvailableDialog(context),
         child: Icon(
           Icons.add,
         ),

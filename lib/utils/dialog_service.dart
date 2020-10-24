@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firedash/ui/widgets/widgets.dart';
 
 class DialogService {
-  void buildInfoDialog(BuildContext context, {Widget title, Widget content}) {
+  static void buildInfoDialog(BuildContext context,
+      {Widget title, Widget content}) {
     showDialog(
       context: context,
       builder: (context) => InfoDialog(
@@ -18,7 +19,8 @@ class DialogService {
     );
   }
 
-  void featureNotAvailableDialog(BuildContext context) => buildInfoDialog(
+  static void featureNotAvailableDialog(BuildContext context) =>
+      buildInfoDialog(
         context,
         title: Icon(
           Icons.build_circle,

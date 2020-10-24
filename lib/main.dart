@@ -1,10 +1,8 @@
 import 'package:firedash/ui/pages/login.dart';
 import 'package:firedash/ui/pages/pages.dart';
-import 'package:firedash/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  setupServices();
   runApp(MyApp());
 }
 

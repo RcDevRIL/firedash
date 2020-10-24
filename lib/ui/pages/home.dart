@@ -1,5 +1,4 @@
 import 'package:firedash/utils/dialog_service.dart';
-import 'package:firedash/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -46,8 +45,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () =>
-                  getIt<DialogService>().featureNotAvailableDialog(context),
+              onPressed: () => DialogService.featureNotAvailableDialog(context),
               child: Text(
                 'Firebase auth',
                 style: TextStyle(
