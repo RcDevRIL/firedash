@@ -14,10 +14,8 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
   ScrollController _scrollController;
 
   double _listItemExtent;
-  double _trailingTopPadding;
 
   static const double _listPadding = 20;
-  static const double _voteOptionsHeight = 40;
   @override
   void initState() {
     super.initState();
@@ -27,7 +25,6 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
   @override
   Widget build(BuildContext context) {
     _listItemExtent = MediaQuery.of(context).size.height / 6;
-    _trailingTopPadding = _listItemExtent * 0.5 - _voteOptionsHeight;
     return Scaffold(
       appBar: AppBar(title: Text('Baby Names')),
       floatingActionButton: FloatingActionButton(
@@ -63,92 +60,121 @@ class _BabyVotesPageState extends State<BabyVotesPage> {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
 
-    return Container(
-      key: ValueKey(record.name),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).primaryColorDark,
-        ),
-        borderRadius: BorderRadius.circular(5.0),
-        color: Colors.white60,
-      ),
-      height: _listItemExtent - _listPadding * 4,
-      child: ListTile(
-        title: Text(record.name),
-        subtitle: Container(
-          height: _listItemExtent * 0.7,
-          child: Scrollbar(
-            radius: Radius.circular(120),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              clipBehavior: Clip.hardEdge,
-              child: Text(record.description),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          key: ValueKey(record.name),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context).primaryColorDark,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.white60,
+          ),
+          height: _listItemExtent,
+          width: MediaQuery.of(context).size.width * 0.7 - _listPadding,
+          child: ListTile(
+            title: Container(
+              height: _listItemExtent * 0.3,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(record.name),
+              ),
+            ),
+            subtitle: Container(
+              height: _listItemExtent * 0.7 - _listPadding,
+              child: Center(
+                child: Scrollbar(
+                  radius: Radius.circular(120),
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    clipBehavior: Clip.hardEdge,
+                    child: Text(record.description),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
-        trailing: Padding(
-          padding: EdgeInsets.only(
-            top: _trailingTopPadding,
-          ),
-          child: Container(
-            height: _voteOptionsHeight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
+        Container(
+          height: _listItemExtent,
+          width: MediaQuery.of(context).size.width * 0.3 - _listPadding,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MaterialButton(
-                  onPressed: () => record.reference
-                      .update({'votes': FieldValue.increment(-1)}),
-                  shape: CircleBorder(
-                    side: BorderSide(
-                      color: Colors.red[300],
-                      width: 1.0,
-                      style: BorderStyle.solid,
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Score : ',
+                      style: Theme.of(context).textTheme.bodyText1,
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: '${record.votes}',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
                     ),
                   ),
-                  minWidth: 0.0,
-                  clipBehavior: Clip.antiAlias,
-                  enableFeedback: true,
-                  child: Icon(
-                    Icons.exposure_minus_1,
-                    semanticLabel: '-1',
-                    size: 14,
-                    color: Colors.red[300],
-                  ),
-                  color: Colors.grey[100],
-                  hoverColor: Colors.transparent,
                 ),
-                Text(
-                  record.votes.toString(),
-                  textWidthBasis: TextWidthBasis.longestLine,
-                ),
-                MaterialButton(
-                  onPressed: () => record.reference
-                      .update({'votes': FieldValue.increment(1)}),
-                  shape: CircleBorder(
-                      side: BorderSide(
-                    color: Colors.teal,
-                    width: 1.0,
-                    style: BorderStyle.solid,
-                  )),
-                  minWidth: 0.0,
-                  clipBehavior: Clip.antiAlias,
-                  enableFeedback: true,
-                  child: Icon(
-                    Icons.exposure_plus_1,
-                    semanticLabel: '+1',
-                    size: 14,
-                    color: Colors.teal,
-                  ),
-                  color: Colors.grey[100],
-                  hoverColor: Colors.transparent,
+                const SizedBox(height: 12.0),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    MaterialButton(
+                      onPressed: () => record.reference
+                          .update({'votes': FieldValue.increment(-1)}),
+                      shape: CircleBorder(
+                        side: BorderSide(
+                          color: Colors.red[300],
+                          width: 1.0,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      minWidth: 0.0,
+                      clipBehavior: Clip.antiAlias,
+                      enableFeedback: true,
+                      child: Icon(
+                        Icons.exposure_minus_1,
+                        semanticLabel: '-1',
+                        size: 14,
+                        color: Colors.red[300],
+                      ),
+                      color: Colors.grey[100],
+                      hoverColor: Colors.transparent,
+                    ),
+                    MaterialButton(
+                      onPressed: () => record.reference
+                          .update({'votes': FieldValue.increment(1)}),
+                      shape: CircleBorder(
+                          side: BorderSide(
+                        color: Colors.teal,
+                        width: 1.0,
+                        style: BorderStyle.solid,
+                      )),
+                      minWidth: 0.0,
+                      clipBehavior: Clip.antiAlias,
+                      enableFeedback: true,
+                      child: Icon(
+                        Icons.exposure_plus_1,
+                        semanticLabel: '+1',
+                        size: 14,
+                        color: Colors.teal,
+                      ),
+                      color: Colors.grey[100],
+                      hoverColor: Colors.transparent,
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
