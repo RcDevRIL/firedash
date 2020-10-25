@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "968065914501",
+    "firebase_url": "https://firedash-f6977.firebaseio.com",
+    "project_id": "firedash-f6977",
+    "storage_bucket": "firedash-f6977.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968065914501:android:ffa81f3a480b612bb2fbec",
+        "android_client_info": {
+          "package_name": "com.example.firedash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968065914501-qoufrb3hni02lctla2v9v7nshq4vtjrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm-7WztSwvkqaCK7a2GqxKK3uSbVjUHyY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968065914501-qoufrb3hni02lctla2v9v7nshq4vtjrt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

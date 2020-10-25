@@ -1,8 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firedash/ui/pages/login.dart';
 import 'package:firedash/ui/pages/pages.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) await Firebase.initializeApp();
   runApp(MyApp());
 }
 
